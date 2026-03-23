@@ -1,13 +1,22 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { TodoList } from "~/components/TodoList/TodoList";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "ATOM Taskie" },
+    { name: "description", content: "Taskie" },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return (
+    <main style={{ 
+      width: "100%",
+      maxWidth: "450px",
+      padding: "1rem",
+      margin: "0 auto",
+    }}>
+      <TodoList />
+    </main>
+  );
 }
