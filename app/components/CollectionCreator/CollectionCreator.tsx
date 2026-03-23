@@ -1,34 +1,36 @@
 import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { todoListState } from "~/atom/todoListState";
+import { collectionsState } from "~/atom/collectionsState";
 import { LuSave } from "react-icons/lu";
 
+const createUuid = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    const r = (Math.random() * 16) | 0,
+      v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+};
 
-export function TodoItemCreator() {
+export function CollectionCreator() {
   const [inputValue, setInputValue] = useState('');
-  const setTodoList = useSetRecoilState(todoListState);
-  const todoList = useRecoilValue(todoListState);
-
-  const createId = () => {
-    let id = 0;
-    todoList.forEach((item) => {
-      if (item.id > id) {
-        id = item.id;
-      }
-    });
-    return id + 1;
-  };
+  const setCollections = useSetRecoilState(collectionsState);
+  const collections = useRecoilValue(collectionsState);
 
   const addItem = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const newList = [...todoList, {
-      id: createId(),
+    const newList = [...collections, {
+      id: createUuid(),
       text: inputValue,
-      isComplete: false
+      color: '#fff',
+      icon: '',
+      isComplete: false,
+      isArchived: false,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
     }];
     
-    setTodoList(newList);
+    setCollections(newList);
     setInputValue('');
   };
 
