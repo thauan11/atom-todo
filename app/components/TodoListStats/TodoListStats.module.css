@@ -1,0 +1,83 @@
+:root {
+  --main-color: #4caf50;
+  --bg-color: var(--color-white);
+  --color: black;
+  --bg-percent: #cecece;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --main-color: #4caf50;
+    --bg-color: var(--color-gray-950);
+    --color: white;
+    --bg-percent: #333;
+  }
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  gap: 10px;
+}
+
+.stats .statItem {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.progressCircle {
+  --size: 100px;
+  --thickness: 10px;
+  
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  
+  /* transition: --percent 1s ease-in-out; */
+  transition: background 1s ease-in-out; 
+  background: conic-gradient(
+    var(--bg-percent) calc(100% - calc(var(--percent) * 1%)), 
+    var(--main-color) 0%
+  );
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  font-size: 12px;
+}
+
+.stats .statItem0.progressCircle:hover {
+  --main-color: #FFF;
+  background: conic-gradient(
+    var(--bg-percent) calc(100% - calc(var(--percent) * 1%)), 
+    var(--main-color) 0%
+  );
+}
+  
+.progressCircle::before {
+  content: "";
+  position: absolute;
+  width: calc(var(--size) - var(--thickness));
+  height: calc(var(--size) - var(--thickness));
+  background-color: var(--bg-color);
+  border-radius: 50%;
+}
+
+.number {
+  position: relative;
+  color: var(--color);
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-left: -4px;
+}
+
+.numberPercent {
+  position: relative;
+  color: var(--color);
+  font-size: 0.8rem;
+}
