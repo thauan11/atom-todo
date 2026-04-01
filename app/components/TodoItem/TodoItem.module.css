@@ -1,67 +1,109 @@
 .todoItem {
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--secundary-color);
+  background-color: var(--surface-color);
+  list-style: none;
   position: relative;
-  display: flex;
-  flex-direction: row;
-  gap: 10px;
-  justify-content: space-between;
 }
 
-.todoItem input {
-  display: none;
+.todoItem:has(input:checked) {
+  opacity: 0.5;
 }
 
-.todoItem label {
+.todoItem > input {
+  visibility: hidden;
+  position: absolute;
+  left: -100dvw;
+  top: -100dvh;
+}
+
+.todoItem > label {
   position: relative;
-  padding-left: 45px;
+  padding-left: 50px;
   cursor: pointer;
   user-select: none;
-  width: 100%;
   display: block;
-}
-
-.todoItem label::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  left: 0;
-  width: 30px;
-  height: 16px;
-  background: #cecece;
-  border-radius: 10px;
+  color: var(--text-primary-color);
+  font-family: "Space Grotesk Bold";
   z-index: 1;
 }
-.todoItem label::after {
-  content: '';
+
+.todoItem > label::before {
+  content: "";
   position: absolute;
   top: 50%;
+  left: 0;
   transform: translateY(-50%);
-  left: 2px;
-  width: 12px;
-  height: 12px;
-  background: black;
-  border-radius: 50%;
-  z-index: 2;
-  transition: all 0.2s ease-in-out;
-}
-
-.todoItem input:checked + label::after {
-  left: 15px;
-  background: #777;
-}
-
-.todoItem input:checked + label {
-  text-decoration: line-through;
-  opacity: 0.75;
-  transition: all 0.2s ease-in-out;
-}
-
-.todoItem > div {
-  max-width: calc(100% - 40px);
-  overflow-x: scroll;
-}
-
-.todoItem .deleteButton {
+  width: 20px;
+  height: 20px;
+  border: 1px solid var(--secundary-color);
+  background-color: var(--surface-color);
+  z-index: 1;
   cursor: pointer;
+}
+
+.todoItem:has(label:hover),
+.todoItem > label:hover::before {
+  border: 1px solid var(--primary-color);
+}
+
+.todoItem > label::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  width: 22px;
+  height: 22px;
+  background-color: var(--primary-color);
+  opacity: 0;
+  z-index: 2;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.todoItem > label:hover::after {
+  opacity: 0.25;
+}
+
+.todoItem > input:checked + label {
+  text-decoration: line-through;
+}
+
+.todoItem > input:checked + label::before {
+  opacity: 0.25;
+  background-color: var(--primary-color);
+}
+
+.todoItem .floatContent {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 0.75rem;
+  color: var(--text-secondary-color);
   user-select: none;
+  z-index: 0;
+}
+
+.todoItem .checkIcon {
+  position: absolute;
+  top: 50%;
+  left: 1px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+}
+
+.todoItem .checkIcon svg {
+  stroke: var(--primary-color);
+}
+
+.todoItem .floatContent > span {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
 }

@@ -11,13 +11,12 @@ export function TodoListFilters() {
   };
 
   return (
-    <section className={styles.filters}>
-      <p>Filter:</p>
+    <div className={styles.filters}>
       <select value={filter} onChange={updateFilter}>
         <option value="Show All">All</option>
         <option value="Show Completed">Completed</option>
         <option value="Show Uncompleted">Uncompleted</option>
       </select>
-    </section>
+    </div>
   );
 }

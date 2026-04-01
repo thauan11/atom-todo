@@ -3,6 +3,21 @@
   src: url("/assets/fonts/space-grotesk/static/SpaceGrotesk-Regular.woff2") format("woff2");
 }
 
+@font-face {
+  font-family: "Space Grotesk Medium";
+  src: url("/assets/fonts/space-grotesk/static/SpaceGrotesk-Medium.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Grotesk Light";
+  src: url("/assets/fonts/space-grotesk/static/SpaceGrotesk-Light.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "Space Grotesk Bold";
+  src: url("/assets/fonts/space-grotesk/static/SpaceGrotesk-Bold.woff2") format("woff2");
+}
+
 :root {
   --background-color: #e5e7eb;
   --primary-color: #006D77; /* usado para botões principais, barras de progresso ativas e estados de foco */
