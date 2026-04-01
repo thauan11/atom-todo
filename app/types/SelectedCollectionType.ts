@@ -1,4 +1,4 @@
-interface CollectionsType {
+interface SelectedCollectionType {
   id: string;
   text: string;
   color: string;

@@ -6,11 +6,13 @@ import { TodoItemCreator } from "../TodoItemCreator/TodoItemCreator";
 import { TodoListFilters } from "../TodoListFilters/TodoListFilters";
 import { TodoListStats } from "../TodoListStats/TodoListStats";
 import { filteredTodoListState } from "~/selectors/filteredTodoListState";
+import { selectedCollectionState } from "~/atom/selectedCollectionState";
 
 export function TodoList() {
+  const [isMounted, setIsMounted] = useState(false);
   // const todoList = useRecoilValue(todoListState);
   const todoList = useRecoilValue(filteredTodoListState);
-  const [isMounted, setIsMounted] = useState(false);
+  const collectionSelected = useRecoilValue(selectedCollectionState);
 
   useEffect(() => {
     setIsMounted(true);
@@ -27,7 +29,7 @@ export function TodoList() {
       <TodoItemCreator />
 
       <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
-        {todoList.map((todoItem) => (
+        {todoList.filter((item) => item.collectionId === collectionSelected?.id).map((todoItem) => (
           <TodoItem key={todoItem.id} item={todoItem} />
         ))}
       </div>

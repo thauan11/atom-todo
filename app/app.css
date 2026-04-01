@@ -1,6 +1,39 @@
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("/assets/fonts/space-grotesk/static/SpaceGrotesk-Regular.woff2") format("woff2");
+}
+
+:root {
+  --background-color: #e5e7eb;
+  --primary-color: #006D77; /* usado para botões principais, barras de progresso ativas e estados de foco */
+  --surface-color: #ffffff; /* usado nos cartões e elementos que precisam de uma leve separação do fundo */
+  --text-primary-color: #1a1c1e;
+  --text-secondary-color: #a0a0a0; /* informações menos importantes e ícones */
+  --secundary-color: #dadce0; /* bordas e elementos estruturais discretos */
+  
+  --font-sans: "Space Grotesk", sans-serif;
+  --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background-color: #0a0a0b;
+    --primary-color: #B829DD;
+    --surface-color: #1c1b1c;
+    --text-primary-color: #E5E2E3;
+    --text-secondary-color: #acabaa;
+    --secundary-color: #2c2b2c;
+  }
+}
+
 * {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: var(--font-sans);
+}
+
+html,
+body {
+  background-color: var(--background-color);
+  color: var(--text-primary-color);
 }

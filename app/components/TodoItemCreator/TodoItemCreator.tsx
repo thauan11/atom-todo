@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { todoListState } from "~/atom/todoListState";
 import { LuSave } from "react-icons/lu";
+import { selectedCollectionState } from "~/atom/selectedCollectionState";
 
 
 export function TodoItemCreator() {
   const [inputValue, setInputValue] = useState('');
+  const collectionSelected = useRecoilValue(selectedCollectionState);
   const setTodoList = useSetRecoilState(todoListState);
   const todoList = useRecoilValue(todoListState);
 
@@ -25,7 +27,9 @@ export function TodoItemCreator() {
     const newList = [...todoList, {
       id: createId(),
       text: inputValue,
-      isComplete: false
+      isComplete: false,
+      createdAt: new Date(),
+      collectionId: collectionSelected ? collectionSelected.id : '',
     }];
     
     setTodoList(newList);
@@ -34,6 +38,7 @@ export function TodoItemCreator() {
 
   return (
     <div>
+      <h3>Create Todo</h3>
       <form onSubmit={addItem} style={{ display: 'flex', gap: '10px' }}>
         <input
           type="text"
