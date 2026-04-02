@@ -3,20 +3,75 @@
 
 .container {
   display: grid;
-  grid-template-columns: 30% calc(70% - 2rem);
-  gap: 2rem;
+  grid-template-columns: calc(30% - 1rem) calc(70% - 2rem);
+  gap: 3rem;
 }
 
 .leftContent {
-  border: 1px solid red;
+}
+
+.leftContent .sticky {
+  position: sticky;
+  top: 2rem;
+}
+
+.leftContent .collectionHeader {
+  margin-bottom: 2rem;
+}
+
+.leftContent .collectionHeader > button {
+  border: 1px solid var(--secundary-color);
+  background-color: var(--surface-color);
+  color: var(--text-primary-color);
+  padding: 0.5rem 1rem;
+  font-size: 0.6rem;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .leftContent .statusMonitor {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
 }
 
 .leftContent .newTodo {
-  margin-bottom: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+}
+
+.leftContent .newTodo > button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 1.5rem 1rem;
+  border: none;
+  background-color: var(--primary-color);
+  color: var(--text-primary-color);
+  font-size: 0.8rem;
+  font-family: "Space Grotesk Bold";
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.leftContent .newTodo > button:last-child {
+  border: 1px solid var(--primary-color);
+  background-color: transparent;
+  color: var(--primary-color);
+}
+
+.leftContent .newTodo > button:hover {
+  opacity: 0.9;
 }
 
 .rightContent {
@@ -28,7 +83,7 @@
   align-items: flex-end;
   margin-bottom: 1rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid var(--text-primary-color);
+  border-bottom: 1px solid var(--secundary-color);
 }
 
 .rightContent .todoHeader > h1 {
@@ -63,7 +118,92 @@
   position: absolute;
   top: 5px;
   left: 90px;
-  background-color: var(--text-primary-color);
+  background-color: var(--secundary-color);
   height: 1px;
   width: 100%;
+}
+
+.form {
+  margin: 1rem 0;
+  padding: 1.5rem 1rem 1.5rem calc(1rem + 50px);
+  border: 1px solid var(--primary-color);
+  background-color: var(--surface-color);
+  list-style: none;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.form input {
+  position: relative;
+  user-select: none;
+  display: block;
+  color: var(--text-primary-color);
+  font-family: "Space Grotesk Bold";
+  font-size: 1.125rem;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: none;
+  border-bottom: 1px dashed var(--secundary-color);
+  background-color: transparent;
+  width: 100%;
+  margin-right: 1rem;
+  outline: none;
+}
+
+.form::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  z-index: 1;
+  background-color: var(--primary-color);
+  opacity: 0.25;
+  cursor: not-allowed;
+  transition: all 0.2s ease-in-out;
+}
+
+.form > p {
+  font-size: 0.6rem;
+  color: var(--text-secondary-color);
+  user-select: none;
+  z-index: 0;
+  min-width: 66px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.form > p > span:first-child {
+  margin-top: -3px;
+}
+
+.removeItem {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+
+@keyframes toRight {
+  0% {
+    width: 100%;
+  }
+  100% {
+    width: 100% - 50px;
+  }
+}
+
+.removeItem ul {
+  width: calc(100% - 50px);
+  animation: toRight 0.3s ease-in-out;
 }

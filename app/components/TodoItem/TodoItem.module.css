@@ -1,10 +1,14 @@
 .todoItem {
-  padding: 1rem;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   border: 1px solid var(--secundary-color);
   background-color: var(--surface-color);
   list-style: none;
   position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
 }
 
 .todoItem:has(input:checked) {
@@ -20,20 +24,23 @@
 
 .todoItem > label {
   position: relative;
-  padding-left: 50px;
+  padding: 1.5rem 1rem 1.5rem calc(1rem + 50px);
   cursor: pointer;
   user-select: none;
   display: block;
   color: var(--text-primary-color);
   font-family: "Space Grotesk Bold";
   z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
 }
 
 .todoItem > label::before {
   content: "";
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 1rem;
   transform: translateY(-50%);
   width: 20px;
   height: 20px;
@@ -43,8 +50,8 @@
   cursor: pointer;
 }
 
-.todoItem:has(label:hover),
-.todoItem > label:hover::before {
+.todoItem:hover,
+.todoItem:hover::before {
   border: 1px solid var(--primary-color);
 }
 
@@ -52,7 +59,7 @@
   content: "";
   position: absolute;
   top: 50%;
-  left: 0;
+  left: 1rem;
   transform: translateY(-50%);
   width: 22px;
   height: 22px;
@@ -63,7 +70,7 @@
   transition: all 0.2s ease-in-out;
 }
 
-.todoItem > label:hover::after {
+.todoItem:hover > label::after {
   opacity: 0.25;
 }
 
@@ -72,38 +79,39 @@
 }
 
 .todoItem > input:checked + label::before {
-  opacity: 0.25;
-  background-color: var(--primary-color);
-}
-
-.todoItem .floatContent {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  font-size: 0.75rem;
-  color: var(--text-secondary-color);
-  user-select: none;
-  z-index: 0;
+  border-color: var(--primary-color);
 }
 
 .todoItem .checkIcon {
   position: absolute;
+  left: calc(1rem + 11px);
   top: 50%;
-  left: 1px;
-  transform: translateY(-50%);
-  width: 20px;
-  height: 20px;
-  display: grid;
-  place-items: center;
+  transform: translate(-50%, -50%);
+  background-color: var(--primary-color);
+  width: 11px;
+  height: 11px;
+  z-index: 3;
 }
 
-.todoItem .checkIcon svg {
-  stroke: var(--primary-color);
+.todoItem .floatContent {
+  font-size: 0.6rem;
+  color: var(--text-secondary-color);
+  user-select: none;
+  z-index: 0;
+  min-width: 98px;
+  padding: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .todoItem .floatContent > span {
   display: flex;
   align-items: center;
   gap: 0.25rem;
+}
+
+.todoItem .floatContent > span:first-child {
+  margin-top: -3px;
 }

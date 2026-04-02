@@ -1,5 +1,5 @@
 import { useRecoilState } from "recoil";
-import { todoListFilterState } from "~/selectors/todoListFilterState";
+import { todoListFilterState } from "~/atom/todoListFilterState";
 import styles from "./TodoListFilters.module.css";
 
 

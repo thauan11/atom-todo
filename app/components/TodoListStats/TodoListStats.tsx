@@ -1,6 +1,7 @@
 import { useRecoilValue } from "recoil";
 import { todoListStatsState } from "~/selectors/todoListStatsState";
 import styles from "./TodoListStats.module.css";
+import type React from "react";
 
 
 export function TodoListStats() {
@@ -11,46 +12,28 @@ export function TodoListStats() {
     percentCompleted,
   } = useRecoilValue(todoListStatsState);
 
-  const completedPercent = totalNum === 0 ? 0 : Math.round(percentCompleted);
-  const uncompletedPercent = totalNum === 0 ? 0 : Math.round(100 - percentCompleted);
-
-  const completedColor = () => {
-    if (completedPercent >= 90) return "#4caf50"; // verde 
-    if (completedPercent >= 50) return "#ffff4c"; // amarelo
-    return "#ff4343"; // vermelho
-  }
-
-  const uncompletedColor = () => {
-    if (uncompletedPercent >= 90) return "#ff4343"; // vermelho
-    if (uncompletedPercent >= 50) return "#ffff4c"; // amarelo
-    return "#4caf50"; // verde
-  }
-
   return (
-    <>
-      <div className={styles.stats}>
-        <div className={styles.statItem}>
-          <p>To do</p>
-          <div
-            className={styles.progressCircle}
-            style={{ "--percent": uncompletedPercent, "--main-color": uncompletedColor() } as React.CSSProperties}
-          >
-            <p className={styles.number}>{totalUncompletedNum}</p>
-            <p className={styles.numberPercent}>{uncompletedPercent}%</p>
-          </div>
-        </div>
+    <aside className={styles.statsMonitor}>
+      <h1>Status Monitor</h1>
 
-        <div className={styles.statItem}>
+      <div
+        className={styles.mainStats}
+        style={{ "--percent": Math.round(percentCompleted) } as React.CSSProperties}
+      >
+        <p>{Math.round(percentCompleted)}%</p>
+      </div>
+
+      <div className={styles.subStats}>
+        <div className={styles.subItem}>
+          <p>Total</p>
+          <p>{totalNum}</p>
+        </div>
+        
+        <div className={styles.subItem}>
           <p>Completed</p>
-          <div
-            className={styles.progressCircle}
-            style={{ "--percent": completedPercent, "--main-color": completedColor() } as React.CSSProperties}
-          >
-            <p className={styles.number}>{totalCompletedNum}</p>
-            <p className={styles.numberPercent}>{completedPercent}%</p>
-          </div>
+          <p>{totalCompletedNum}</p>
         </div>
       </div>
-    </>
+    </aside>
   );
 }

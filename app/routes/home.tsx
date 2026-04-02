@@ -2,7 +2,7 @@ import type { Route } from "./+types/home";
 import { TodoList } from "~/components/TodoList/TodoList";
 import { Collections } from "~/components/Collections/Collections";
 import { selectedCollectionState } from "~/atom/selectedCollectionState";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -12,19 +12,12 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
-  const collectionSelected = useRecoilValue(selectedCollectionState);
-  const setCollectionSelected = useSetRecoilState(selectedCollectionState);
+  const selectedCollection = useRecoilValue(selectedCollectionState);
 
   return (
     <main style={{ padding: "2rem" }}>
-      {collectionSelected ? (
-        <>
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem", paddingBottom: "1rem" }}>
-            <button type="button" onClick={() => setCollectionSelected(null)}>Voltar</button>
-            <h1>Collection: {collectionSelected.text}</h1>
-          </div>
-          <TodoList />
-        </>
+      {selectedCollection ? (
+        <TodoList />
       ) : (
         <Collections />
       )}

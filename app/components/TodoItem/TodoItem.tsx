@@ -4,10 +4,17 @@ import styles from "./TodoItem.module.css";
 import { LuCalendarDays, LuCalendarCheck, LuCheck } from "react-icons/lu";
 
 
-export function TodoItem({ item }: { item: TodoItemType }) {
+interface TodoItemProps {
+  item: TodoItemType;
+  handleChange: () => void;
+  isEditing?: boolean;
+}
+
+export function TodoItem({ item, handleChange, isEditing }: TodoItemProps) {
   const setTodoList = useSetRecoilState(todoListState);
 
   const setItemIsComplete = (id: number) => {
+    if (isEditing) return;
     setTodoList((oldTodoList) => {
       return oldTodoList.map((todoItem) => {
         if (todoItem.id === id) {
@@ -20,6 +27,7 @@ export function TodoItem({ item }: { item: TodoItemType }) {
         return todoItem;
       });
     });
+    handleChange();
   };
 
   const formattedDate = (data: Date) => {
@@ -27,30 +35,31 @@ export function TodoItem({ item }: { item: TodoItemType }) {
     return date.toLocaleDateString("pt-BR", {
       day: "2-digit",
       month: "short",
-      year: "numeric",
     });
   };
   
   return (
-    <li key={item.id} className={styles.todoItem}>
+    <li key={item.id} className={styles.todoItem} onClick={() => setItemIsComplete(item.id)}>
       <input
         type="checkbox"
         checked={item.isComplete}
-        onChange={() => setItemIsComplete(item.id)}
         id={item.id.toString()}
+        disabled={isEditing}
       />
       <label htmlFor={item.id.toString()}>
-        {item.isComplete && <div className={styles.checkIcon}><LuCheck /></div>}
+        {item.isComplete && <span className={styles.checkIcon}></span>}
         {item.text}
       </label>
 
       {item.isComplete ? (
         <div className={styles.floatContent}>
-          <span><LuCalendarCheck /> {item.updatedAt ? formattedDate(item.updatedAt) : "N/A"}</span>
+          <span><LuCalendarCheck size={16} /></span>
+          <span>{item.updatedAt ? formattedDate(item.updatedAt) : "N/A"}</span>
         </div>
       ) : (
         <div className={styles.floatContent}>
-          <span><LuCalendarDays /> {formattedDate(item.createdAt)}</span>
+          <span><LuCalendarDays size={16} /></span>
+          <span>{formattedDate(item.createdAt)}</span>
         </div>
       )}
     </li>

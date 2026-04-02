@@ -10,7 +10,7 @@
 
 .filters select {
   padding: 0.5rem;
-  border: 1px solid var(--text-primary-color);
+  border: 1px solid var(--secundary-color);
   background-color: var(--surface-color);
   color: var(--text-primary-color);
 }

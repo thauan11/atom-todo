@@ -18,8 +18,8 @@ export function CollectionList() {
             <p>{collection.text}</p>
             <p>{collection.isComplete ? "Complete" : "Incomplete"}</p>
             <p>{collection.isArchived ? "Archived" : "Active"}</p>
-            <p>{new Date(collection.createdAt).toLocaleString().split(",")[0]}</p>
-            <p>{new Date(collection.updatedAt).toLocaleString().split(",")[0]}</p>
+            <p>Created: {new Date(collection.createdAt).toLocaleString().split(",")[0]}</p>
+            <p>Updated: {new Date(collection.updatedAt).toLocaleString().split(",")[0]}</p>
           </button>
         ))}
       </section>
