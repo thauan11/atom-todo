@@ -7,9 +7,10 @@ import styles from "./TodoItemDelete.module.css";
 interface TodoItemProps {
   item: TodoItemType;
   handleChange: () => void;
+  isClosing?: boolean
 }
 
-export function TodoItemDelete({ item, handleChange }: TodoItemProps) {
+export function TodoItemDelete({ item, handleChange, isClosing }: TodoItemProps) {
   const setTodoList = useSetRecoilState(todoListState);
 
   const deleteItem = () => {
@@ -18,7 +19,12 @@ export function TodoItemDelete({ item, handleChange }: TodoItemProps) {
   };
   
   return (
-    <button type="button" key={item.id} onClick={deleteItem} className={styles.todoItemDelete}>
+    <button
+      type="button"
+      key={item.id}
+      onClick={deleteItem}
+      className={isClosing ? styles.isClosing : styles.todoItemDelete}
+    >
       <LuTrash2 />
     </button>
   );

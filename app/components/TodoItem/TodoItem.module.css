@@ -1,5 +1,4 @@
 .todoItem {
-  margin-bottom: 1rem;
   border: 1px solid var(--secundary-color);
   background-color: var(--surface-color);
   list-style: none;

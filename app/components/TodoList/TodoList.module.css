@@ -64,6 +64,11 @@
   transition: opacity 0.2s ease-in-out;
 }
 
+.leftContent .newTodo > button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .leftContent .newTodo > button:last-child {
   border: 1px solid var(--primary-color);
   background-color: transparent;
@@ -72,6 +77,26 @@
 
 .leftContent .newTodo > button:hover {
   opacity: 0.9;
+}
+
+.rightContentEmpty {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--secundary-color);
+  min-height: calc(100dvh - 4rem);
+  padding: 1rem;
+}
+
+.rightContentEmpty > h1 {
+  margin: 6rem 0 1rem;
+  font-size: 0.6rem;
+  text-align: center;
+  letter-spacing: 0.15rem;
+  text-transform: uppercase;
+  font-weight: 200;
+  font-family: "Space Grotesk Light";
+  position: relative;
+  overflow: hidden;
 }
 
 .rightContent {
@@ -97,6 +122,12 @@
 }
 
 .rightContent .todoItems {
+}
+
+.rightContent .todoItems .container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .rightContent .completedItems {
@@ -192,6 +223,22 @@
   align-items: center;
   justify-content: flex-end;
   position: relative;
+  gap: 10px;
+}
+
+.removeItemClose {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+  gap: 0;
+  transition: gap 0.3s ease;
+}
+
+.removeItem > div {
+  border: 1px solid red;
 }
 
 @keyframes toRight {
@@ -199,11 +246,16 @@
     width: 100%;
   }
   100% {
-    width: 100% - 50px;
+    width: calc(100% - 50px);
   }
 }
 
 .removeItem ul {
   width: calc(100% - 50px);
-  animation: toRight 0.3s ease-in-out;
+  animation: toRight 0.3s ease;
+}
+
+.removeItemClose ul {
+  width: 100%;
+  transition: width 0.3s ease;
 }

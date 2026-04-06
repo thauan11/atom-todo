@@ -3,19 +3,39 @@
     width: 0;
   }
   100% {
-    width: 50px;
+    width: 40px;
   }
 }
 
 .todoItemDelete {
-  width: 50px;
-  height: 50px;
-  position: absolute;
-  top: 0;
-  left: 0;
+  width: 40px;
+  height: 40px;
   border: 1px solid var(--secundary-color);
+  border: none;
   background-color: red;
   color: var(--text-primary-color);
   cursor: pointer;
-  animation: toRight 0.3s ease-in-out;
+  animation: toRight 0.3s ease;
+  overflow: hidden;
+}
+
+@keyframes toLeft {
+  0% {
+    width: 40px;
+  }
+  100% {
+    width: 0;
+  }
+}
+
+.isClosing {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--secundary-color);
+  border: none;
+  background-color: red;
+  color: var(--text-primary-color);
+  cursor: pointer;
+  animation: toLeft 0.3s forwards ease;
+  overflow: hidden;
 }

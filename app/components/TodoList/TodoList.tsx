@@ -15,6 +15,7 @@ export function TodoList() {
   const [isMounted, setIsMounted] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isClosing, setIsClosing] = useState(undefined as boolean | undefined);
   const [inputValue, setInputValue] = useState('');
   const newTodoRef = useRef(null as HTMLInputElement | null);
   const todoList = useRecoilValue(filteredTodoListState);
@@ -43,10 +44,26 @@ export function TodoList() {
     return id + 1;
   };
 
+  const closeEdit = () => {
+    if (!isEditing) return setIsEditing(!isEditing);
+    const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+    setIsClosing(true);
+    setIsEditing(false);
+    sleep(300).then(() => {
+      setIsClosing(false);
+    });
+  };
+
   // handlers
   const handleTodoItemChange = () => {
     const collection = allCollections.find((col) => col.id === selectedCollection?.id);
     if (collection) {
+      const noItems = todoList.some((item) => item.collectionId === collection?.id);
+      if (noItems) {
+        setIsEditing(false);
+        setIsClosing(false);
+      }
+
       const updatedCollection = {
         ...collection,
         updatedAt: new Date().toDateString(),
@@ -132,11 +149,19 @@ export function TodoList() {
             </div>
 
             <div className={styles.newTodo}>
-              <button onClick={() => setIsAdding(!isAdding)}>
+              <button
+                type="button"
+                disabled={isEditing}
+                onClick={() => setIsAdding(!isAdding)}
+              >
                 <LuPlus size={20} />
               </button>
 
-              <button onClick={() => setIsEditing(!isEditing)}>
+              <button
+                type="button"
+                disabled={todoList.length === 0}
+                onClick={() => closeEdit()}
+              >
                 <LuBrush size={20} />
               </button>
             </div>
@@ -144,61 +169,87 @@ export function TodoList() {
         </div>
 
         {todoList.length === 0 ? (
-          <div>
+          <div className={styles.rightContent}>
             { renderAddTodoItem() }
           </div>
         ) : (
           <div className={styles.rightContent}>
             <div className={styles.todoHeader}>
-                <h1>{isEditing ? "Editing" : hasPendingItems ? "Pending" : "Completed"}</h1>
-                <TodoListFilters />
+              <h1>{hasPendingItems ? "Pending" : "Completed"}</h1>
+              <TodoListFilters />
             </div>
 
-            {isEditing ? (
-              <div>
-                {todoList.filter((item) => item.isComplete === false).map((todoItem) => (
-                  <div key={todoItem.id} className={styles.removeItem}>
-                    <TodoItemDelete key={todoItem.id} item={todoItem} handleChange={() => handleTodoItemChange()}/>
-                    <ul>
-                      <TodoItem
-                        key={todoItem.id}
-                        item={todoItem}
-                        handleChange={() => handleTodoItemChange()}
-                        isEditing={isEditing}
-                      />
-                    </ul>
-                  </div>
-                ))}
+            {isEditing || isClosing ? (
+              <div className={styles.todoItems}>
+                <div className={styles.container}>
+                  {todoList.filter((item) => item.isComplete === false).map((todoItem) => (
+                    <div
+                      key={todoItem.id}
+                      className={isClosing ? styles.removeItemClose : styles.removeItem}
+                    >
+                      <div>
+                        <TodoItemDelete
+                          key={todoItem.id}
+                          item={todoItem}
+                          handleChange={() => handleTodoItemChange()}
+                          isClosing={isClosing}
+                        />
+                      </div>
+                      <ul>
+                        <TodoItem
+                          key={todoItem.id}
+                          item={todoItem}
+                          handleChange={() => handleTodoItemChange()}
+                          isEditing={isEditing}
+                        />
+                      </ul>
+                    </div>
+                  ))}
+                </div>
 
                 {hasCompletedItems &&
-                  <div className={styles.completedItems}>
+                  <div className={styles.completedItems + " " + styles.todoItems}>
                     {hasPendingItems && <h1>Completed</h1>}
-                    {todoList.filter((item) => item.isComplete === true).map((todoItem) => (
-                      <div key={todoItem.id} className={styles.removeItem}>
-                        <TodoItemDelete key={todoItem.id} item={todoItem} handleChange={() => handleTodoItemChange()}/>
-                        <ul>
-                          <TodoItem
-                            key={todoItem.id}
-                            item={todoItem}
-                            handleChange={() => handleTodoItemChange()}
-                            isEditing={isEditing}
-                          />
-                        </ul>
-                      </div>
-                    ))}
+                    <div className={styles.container}>
+                      {todoList.filter((item) => item.isComplete === true).map((todoItem) => (
+                        <div
+                          key={todoItem.id}
+                          className={isClosing ? styles.removeItemClose : styles.removeItem}
+                        >
+                          <div>
+                            <TodoItemDelete
+                              key={todoItem.id}
+                              item={todoItem}
+                              handleChange={() => handleTodoItemChange()}
+                              isClosing={isClosing}
+                            />
+                          </div>
+                          <ul>
+                            <TodoItem
+                              key={todoItem.id}
+                              item={todoItem}
+                              handleChange={() => handleTodoItemChange()}
+                              isEditing={isEditing}
+                            />
+                          </ul>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 }
               </div>
             ) : (
               <>
                 <ul className={styles.todoItems}>
-                  {todoList.filter((item) => item.isComplete === false).map((todoItem) => (
-                    <TodoItem
-                      key={todoItem.id}
-                      item={todoItem}
-                      handleChange={() => handleTodoItemChange()}
-                    />
-                  ))}
+                  <div className={styles.container}>
+                    {todoList.filter((item) => item.isComplete === false).map((todoItem) => (
+                      <TodoItem
+                        key={todoItem.id}
+                        item={todoItem}
+                        handleChange={() => handleTodoItemChange()}
+                      />
+                    ))}
+                  </div>
                 </ul>
 
                 { renderAddTodoItem() }
@@ -206,14 +257,16 @@ export function TodoList() {
                 {hasCompletedItems &&
                   <div className={styles.completedItems}>
                     {hasPendingItems && <h1>Completed</h1>}
-                    <ul>
-                      {todoList.filter((item) => item.isComplete === true).map((todoItem) => (
-                        <TodoItem
-                          key={todoItem.id}
-                          item={todoItem}
-                          handleChange={() => handleTodoItemChange()}
-                        />
-                      ))}
+                    <ul className={styles.todoItems}>
+                      <div className={styles.container}>
+                        {todoList.filter((item) => item.isComplete === true).map((todoItem) => (
+                          <TodoItem
+                            key={todoItem.id}
+                            item={todoItem}
+                            handleChange={() => handleTodoItemChange()}
+                          />
+                        ))}
+                      </div>
                     </ul>
                   </div>
                 }
